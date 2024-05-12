@@ -18,3 +18,5 @@ I am a third year student in the Artificial Intelligence and Data Science depart
 - Procedural programming
 - Pointers and Iterators
 - Low level memory management
+
+Feel free to try this console app by downloading the x86 or the x64 executable file I have uploaded.
