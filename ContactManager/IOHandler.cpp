@@ -5,12 +5,10 @@
 #include <algorithm>
 #include <fstream>
 
-int UserResponse(std::string& t);
-
 const char* file_name = "Contacts.csv";
 std::map <std::string, std::string>* contacts;
 
-bool cmp(std::pair<std::string, std::string>& a,std::pair<std::string, std::string>& b){
+bool cmp(std::pair<std::string, std::string>& a, std::pair<std::string, std::string>& b) {
 	// This function is taken from Geeks for Geeks
 	// https://www.geeksforgeeks.org/sorting-a-map-by-value-in-c-stl/
 	return a.second < b.second;
@@ -19,7 +17,7 @@ bool cmp(std::pair<std::string, std::string>& a,std::pair<std::string, std::stri
 std::vector< std::pair<std::string, std::string>> SortMapByValue() {
 	// This function is taken from Geeks for Geeks
 	// https://www.geeksforgeeks.org/sorting-a-map-by-value-in-c-stl/
-	
+
 	// Declare vector of pairs 
 	std::vector< std::pair<std::string, std::string> > A;
 
@@ -32,6 +30,43 @@ std::vector< std::pair<std::string, std::string>> SortMapByValue() {
 	// Sort using comparator function 
 	std::sort(A.begin(), A.end(), cmp);
 	return A;
+}
+
+void SearchContacts() {
+	std::cout << "Enter the contact or a part of it to be searched:" << std::endl;
+	std::string text; getline(std::cin, text);
+	bool anymatch = false;
+	if (text[0] >= '0' && text[0] <= '9') {
+		for (auto& i : *contacts) {
+			if (text.length() > i.first.length()) continue;
+			bool match = true;
+			for (int j = 0; j < text.length(); j++) {
+				if (text[j] != i.first[j]) match = false;
+			}
+			if (match) {
+				std::cout << i.first << " - " << i.second << std::endl;
+				anymatch = true;
+			}
+		}
+	}
+	else {
+		std::vector< std::pair<std::string, std::string>> contactVector = SortMapByValue();
+		for (auto& it : contactVector) {
+			if (text.length() > it.second.length()) continue;
+			bool match = true;
+			for (int j = 0; j < text.length(); j++) {
+				char c1 = text[j], c2 = it.second[j];
+				if (c1 >= 'A' && c1 <= 'Z') c1 += 32;
+				if (c2 >= 'A' && c2 <= 'Z') c2 += 32;
+				if (c1 != c2) match = false;
+			}
+			if (match) {
+				std::cout << it.second << " - " << it.first << std::endl;
+				anymatch = true;
+			}
+		}
+	}
+	if (!anymatch) std::cout << "No match found!" << std::endl;
 }
 
 void UpdateDatabase() {

@@ -13,7 +13,9 @@ int ContactManager() {
 			ListContacts();
 			return 1;
 		case (c_search):
-			break;
+			std::cin.ignore();
+			SearchContacts();
+			return 1;
 		case(c_create):
 			std::cin.ignore();
 			CreateContact();
