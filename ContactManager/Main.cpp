@@ -21,7 +21,9 @@ int ContactManager() {
 			CreateContact();
 			return 1;
 		case(c_delete):
-			break;
+			std::cin.ignore();
+			DeleteContact();
+			return 1;
 		case(c_exit):
 			std::cout << "Chose to leave" << std::endl;
 			break;

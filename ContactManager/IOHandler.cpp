@@ -32,11 +32,42 @@ std::vector< std::pair<std::string, std::string>> SortMapByValue() {
 	return A;
 }
 
+void UpdateDatabase() {
+	std::vector< std::pair<std::string, std::string>> valueToBeUpdated = SortMapByValue();
+	std::ofstream filewriter(file_name);
+	auto i = contacts->begin();
+	for (auto& it : valueToBeUpdated) {
+		filewriter << it.second << "," << it.first << "\n";
+	}
+	filewriter.close();
+}
+
+void DeleteContact() {
+	std::cout << "Only enter the number to be deleted:" << std::endl;
+	std::string text; getline(std::cin, text);
+	for (char i : text) {
+		if (!(i >= '0' && i <= '9') && i != '+' && i != '-' && i != ' ') {
+			std::cout << "Please enter a valid phone number!" << std::endl;
+			return;
+		}
+	}
+	for (auto& i : *contacts) {
+		if (text.length() != i.first.length()) continue;
+		if (text == i.first) {
+			contacts->erase(i.first);
+			UpdateDatabase();
+			std::cout << "Contact deleted successfully" << std::endl;
+			return;
+		}
+	}
+	std::cout << "Contact not found!" << std::endl;
+}
+
 void SearchContacts() {
 	std::cout << "Enter the contact or a part of it to be searched:" << std::endl;
 	std::string text; getline(std::cin, text);
 	bool anymatch = false;
-	if (text[0] >= '0' && text[0] <= '9') {
+	if ((text[0] >= '0' && text[0] <= '9') || text[0] == '+' || text[0] == '-') {
 		for (auto& i : *contacts) {
 			if (text.length() > i.first.length()) continue;
 			bool match = true;
@@ -67,16 +98,6 @@ void SearchContacts() {
 		}
 	}
 	if (!anymatch) std::cout << "No match found!" << std::endl;
-}
-
-void UpdateDatabase() {
-	std::vector< std::pair<std::string, std::string>> valueToBeUpdated = SortMapByValue();
-	std::ofstream filewriter(file_name);
-	auto i = contacts->begin();
-	for (auto& it : valueToBeUpdated) {
-		filewriter << it.second << "," << it.first << "\n";
-	}
-	filewriter.close();
 }
 
 void CreateContact() {
