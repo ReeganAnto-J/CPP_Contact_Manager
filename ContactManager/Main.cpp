@@ -36,5 +36,6 @@ int ContactManager() {
 int main() {
 	GetContacts();
 	while (ContactManager());
+	ClearMemory();
 	std::cin.get();
 }

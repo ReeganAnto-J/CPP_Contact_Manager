@@ -6,3 +6,4 @@ void SearchContacts();
 void CreateContact();
 void GetContacts();
 void ListContacts();
+void ClearMemory();

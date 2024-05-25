@@ -6,7 +6,7 @@
 #include <fstream>
 
 const char* file_name = "Contacts.csv";
-std::map <std::string, std::string>* contacts;
+std::map <std::string, std::string>* contacts = nullptr;
 
 bool cmp(std::pair<std::string, std::string>& a, std::pair<std::string, std::string>& b) {
 	// This function is taken from Geeks for Geeks
@@ -186,4 +186,8 @@ void GetContacts(){
 		contacts->emplace(contact, name);
 	}
 	filereader.close();
+}
+
+void ClearMemory() {
+	if(contacts != nullptr) delete(contacts);
 }
